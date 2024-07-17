@@ -1,25 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Purpose: Reduce number of partitions
+%          Use a group action by the Klein 4-Group
+%          This action is invariant on edges shared by all our partitions
+%          
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% start with the matrix that gives our "dictionary" for edges
+% each row associates an edge to a number from 1 to 28
 AlphS2D4 = [1 2; 1 3; 1 4; 1 5; 1 6; 1 7; 1 8; 2 3; 2 4; 2 5; 2 6; 2 7; 2 8; 
  3 4; 3 5; 3 6; 3 7; 3 8; 4 5; 4 6; 4 7; 4 8; 5 6; 5 7; 5 8; 6 7; 6 8; 7 8];
 [rows_S2D4, columns_S2D4] = size(AlphS2D4);
 
 
-
+% take input
 AA2CF = readmatrix('CycleFreePartitionsGamma1X19.txt');
 [rows_AA2CF, columns_AA2CF] = size(AA2CF)
 
 
 
-
+% permutations to use
 sigma8=[1,2,3,4,5,8,7,6];
 sigma35=[1,2,5,4,3,6,7,8];
 
+% intialization
 count=0;
 ZZT4=int16.empty(0,28);
 YY=zeros(4,28);
 XX=AA2CF;
 [rows_xx, columns_xx] = size(XX); 
+
+% while there are still some left to work with
 while rows_xx>0 
    wwt(1,1:28)=XX(1,1:28);
+   % use permutation functions to see new one
  wws1=Perm23(sxw(sigma35,wwt,AlphS2D4));
  wws2=sxw(sigma8,wws1,AlphS2D4);
  wws3=sxw(sigma8,wwt,AlphS2D4);
@@ -27,10 +41,15 @@ YY(1,1:28)=wwt;
 YY(2,1:28)=wws1;
 YY(3,1:28)=wws2;
 YY(4,1:28)=wws3;
-  
+
+% add to the output
    ZZT4=[ZZT4;wwt];
    count=count+1;
+   
+% delete and continue until nothing left in XX
 XX=setdiff(XX,YY,'rows','legacy');
+
+% Use a counter to make sure everything is going ok
  if (count==100)|(count==1000)|(count==10000)(count==25000)|(count==50000)
 |(count==75000)|(count==100000)|(count==125000)|(count==150000)
      count %the count will go up to 154272 
@@ -40,14 +59,19 @@ XX=setdiff(XX,YY,'rows','legacy');
 end
 
 count
+% output
 writematrix(ZZT4,'CycleFreePartitionsKlein','Delimiter','space'); 
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Purpose: swaps the 2nd and 3rd graph
+%          used with a 3 and 5 vertex permutation
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-function per23=Perm23(w28) %gives the action of (2,3) on the partition vector
+function per23=Perm23(w28) 
 % w28=(G1,G2,G3,G4) (from V^{28}). 
 pp1(1,1:7)=w28(1,1:7);
 pp2(1,1:7)=w28(1,8:14);
@@ -57,7 +81,11 @@ pp4(1,1:7)=w28(1,22:28);
 per23=[pp1,pp3,pp2,pp4];
 end
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Purpose: permute vertices 6 and 8
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function swr=sxw(sigma8,w28,AlphS2D4) %gives the action of sigma8 (from S_8) on 
 %the vector w28 (from V^{28}). 
@@ -71,7 +99,11 @@ end
 swr=rearange(sw);
 end
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Purpose: finds row in dictionary 
+%          given vector
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -86,7 +118,12 @@ while (tty)&(yyy < 28)
 end 
 end 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Purpose: rearranges vector
+%          so in correct order
+%          for a partition
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
