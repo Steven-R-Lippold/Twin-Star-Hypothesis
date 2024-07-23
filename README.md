@@ -10,4 +10,4 @@ The MATLAB work was conducted in three steps, which is given in this repository 
 A more in-depth description is given by the [TwinStarDescription](TwinStarDescription.pdf) file. The files here are free for use under the MIT License provided in this repository.
 
 ## Reference Work
-A preprint version of the article "Twin-star hypothesis and cycle-free $d$-partitions of $K_{2d}$" by Fyfe et al can be found at ----------------.
+A preprint version of the article "Twin-star hypothesis and cycle-free $d$-partitions of $K_{2d}$" by Fyfe et al can be found at arXiv with the identifier [2407.13959](https://arxiv.org/abs/2407.13959).
